@@ -164,23 +164,6 @@ img {
     padding: 96px 26px 72px;
 }
 
-.eyebrow {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 34px;
-    padding: 5px 13px;
-    margin-bottom: 20px;
-    color: var(--blue);
-    background: rgba(26, 115, 232, 0.09);
-    border: 1px solid rgba(26, 115, 232, 0.18);
-    border-radius: 999px;
-    font-size: 0.82rem;
-    font-weight: 800;
-    letter-spacing: 0;
-    text-transform: uppercase;
-}
-
 .hero-title {
     margin-bottom: 10px;
     font-size: clamp(3rem, 8vw, 6.4rem);
@@ -204,7 +187,7 @@ img {
 .hero-subtitle {
     max-width: 780px;
     margin: 0 auto 22px;
-    color: var(--ink);
+    color: #80868b;
     font-size: clamp(1.28rem, 3vw, 2.05rem);
     font-weight: 800;
     line-height: 1.25;
@@ -227,18 +210,28 @@ img {
     font-size: 0.6em;
 }
 
-.affiliation,
-.corresp-note {
+.affiliation-line {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px 22px;
     color: var(--muted);
 }
 
-.affiliation {
-    margin-bottom: 2px;
-    font-style: italic;
+.affiliation-line span {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.98rem;
     font-weight: 600;
 }
 
-.corresp-note {
+.affiliation-line i {
+    color: var(--muted);
+}
+
+.affiliation-line {
     margin-bottom: 28px;
     font-size: 0.88rem;
 }
