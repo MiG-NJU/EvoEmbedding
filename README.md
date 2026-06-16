@@ -35,15 +35,17 @@ Instead of encoding text segments into isolated static vectors, EvoEmbedding seq
 - [Citation](#citation)
 
 ## Framework
-
-EvoEmbedding coordinates two coupled, parallel operations to process incoming long contexts:
-
-- **Memory Evolution**: Compresses historical segments into latent memory states and updates a FIFO memory queue.
-- **Representation Generation**: Combines the latent memory with the current segment to generate evolvable representations.
-
 <p align="center">
   <img src="docs/assets/framework.png" alt="EvoEmbedding overview" width="95%" />
 </p>
+
+Existing embedding models are inherently static: they encode text segments in isolation, ignoring their surrounding context and temporal order. **EvoEmbedding** is a novel embedding model that generates \textit{evolvable} representations for retrieval.It maintains a continuously updated latent memory as it sequentially processes inputs, and uses it alongside the raw content to jointly generate evolvable embeddings.
+
+At each step, the model coordinates two decoupled, parallel operations to process incoming text segments:
+
+- 🧠 **Memory Evolution:** Automatically compresses the current text segment and fuses it with previous native memory, pushing the updated state into a bounded FIFO **Latent Memory Queue**. This ensures continuous state tracking without massive memory overhead.
+- ✨ **Representation Generation:** Dynamically combines the historical latent memory with the raw input segment to generate context-aware, **Evolvable Embeddings**. The resulting representations are highly sensitive to chronological order and semantic shifts.
+
 
 ## Dataset
 
