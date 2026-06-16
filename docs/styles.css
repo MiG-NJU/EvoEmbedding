@@ -512,6 +512,50 @@ img {
     padding: 24px;
 }
 
+.conclusion-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.conclusion-item {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 18px;
+    min-height: 190px;
+    padding: 26px;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-soft);
+}
+
+.conclusion-number {
+    width: 46px;
+    height: 46px;
+    display: grid;
+    place-items: center;
+    color: #fff;
+    background: var(--blue);
+    border-radius: var(--radius);
+    font-size: 0.94rem;
+    font-weight: 800;
+}
+
+.conclusion-item h3 {
+    margin-bottom: 10px;
+    color: var(--ink);
+    font-size: 1.2rem;
+    font-weight: 800;
+    line-height: 1.35;
+}
+
+.conclusion-item p {
+    color: var(--muted);
+    font-size: 1rem;
+    line-height: 1.7;
+}
+
 .bibtex-container {
     margin-top: 22px;
     overflow-x: auto;
@@ -606,6 +650,10 @@ img {
     }
 
     .model-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .conclusion-list {
         grid-template-columns: 1fr;
     }
 
