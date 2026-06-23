@@ -27,14 +27,13 @@ Instead of encoding text segments into isolated static vectors, EvoEmbedding seq
 
 ## Contents
 
-- [Framework](#framework)
-- [Dataset](#dataset)
-- [Conclusions](#conclusions)
-- [Quick Start](#quick-start)
-- [Repository Structure](#repository-structure)
-- [Citation](#citation)
+- 🎨 [Framework](#framework)
+- 📊 [Dataset](#dataset)
+- 🏆 [Conclusions](#conclusions)
+- 🚀 [Quick Start](#quick-start)
+- 📄 [Citation](#citation)
 
-## Framework
+## 🎨 Framework
 <p align="center">
   <img src="docs/assets/framework.png" alt="EvoEmbedding overview" width="95%" />
 </p>
@@ -47,7 +46,7 @@ At each step, the model coordinates two decoupled, parallel operations to proces
 - ✨ **Representation Generation:** Dynamically combines the historical latent memory with the raw input segment to generate context-aware, **Evolvable Embeddings**. The resulting representations are highly sensitive to chronological order and semantic shifts.
 
 
-## Dataset
+## 📊 Dataset
 
 The released **EvoTrain-180K** dataset uses an intuitive, chat-style fine-tuning format designed for joint SFT (Supervised Fine-Tuning) and retrieval optimization. 
 
@@ -108,7 +107,7 @@ To construct your own training data, simply follow these 3 steps:
 
 This design bypasses the need for complex vector-database setups during training. Our SFT pipeline natively consumes this format, allowing you to easily fine-tune the model to track dynamic states and retrieve accurately in your proprietary domain.
 
-## Conclusions
+## 🏆 Conclusions
 
 ### 1. State-of-the-Art Retrieval Performance
 EvoEmbedding achieves superior results across 10 benchmarks, outperforming established static and larger-scale specialist models (such as Qwen3-Embedding-8B and KaLM-Embedding-Gemma3-12B) with smaller parameter sizes.
@@ -141,7 +140,19 @@ Unlike static embeddings that suffer from representation entanglement in long hi
   <img src="docs/assets/vis.png" alt="Temporal Sensitivity Analysis" width="95%" />
 </p>
 
-## Quick Start
+## 🚀 Quick Start
+
+### Repository Structure
+
+```text
+EvoEmbedding/
+├── model/              # model implementation and client
+├── train/              # training entrypoint
+├── eval/               # evaluation scripts
+├── docs/               # project page and visual assets
+├── requirements-evoembedding-4b.txt
+└── requirements-evoembedding-lite.txt
+```
 
 ### Environment
 
@@ -158,7 +169,6 @@ pip install -r requirements-evoembedding-4b.txt
 ```
 
 ### Usage
-
 
 #### As an Embedding Model
 
@@ -234,20 +244,8 @@ Run the batch evaluation script:
 PYTHONPATH=. bash eval/eval.sh
 ```
 
-## Repository Structure
 
-```text
-EvoEmbedding/
-├── model/              # model implementation and client
-├── train/              # training entrypoint
-├── eval/               # evaluation scripts
-├── docs/               # project page and visual assets
-├── requirements-evoembedding-4b.txt
-└── requirements-evoembedding-lite.txt
-```
-
-
-## Citation
+## 📄 Citation
 
 ```bibtex
 @article{nie2026evoembedding,
