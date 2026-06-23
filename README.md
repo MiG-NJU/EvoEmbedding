@@ -57,11 +57,11 @@ EvoEmbedding is evaluated on long-context retrieval and memory-oriented benchmar
 - `PersonaMME128`
 
 <p align="center">
-  <img src="docs/assets/performance.png" alt="EvoEmbedding performance" width="95%" />
+  <img src="docs/assets/Comparsion.png" alt="EvoEmbedding comparison" width="85%" />
 </p>
 
 <p align="center">
-  <img src="docs/assets/Comparsion.png" alt="EvoEmbedding comparison" width="85%" />
+  <img src="docs/assets/performance.png" alt="EvoEmbedding performance" width="95%" />
 </p>
 
 ## Quick Start
