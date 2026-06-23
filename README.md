@@ -4,7 +4,7 @@
 
 <div align="center">
 
-<a href="https://github.com/Clare-Nie/EvoEmbedding">
+<a href="https://clare-nie.github.io/EvoEmbedding/">
   <img src="https://img.shields.io/badge/%F0%9F%8F%A0%20Project%20Page-2f74c0?style=for-the-badge" alt="Project Page" />
 </a>
 <a href="https://arxiv.org/abs/0000.00000">
