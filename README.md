@@ -21,7 +21,7 @@
 
 ---
 
-**EvoEmbedding = Native Memory + Latent RAG**
+**EvoEmbedding = Native Memory + Latent Embedding**
 
 Instead of encoding text segments into isolated static vectors, EvoEmbedding sequentially processes the input stream, continuously updates a **Latent Memory Queue**, and jointly generates context-aware, **Evolvable Embeddings** for precise long-context retrieval. 
 
@@ -110,27 +110,36 @@ This design bypasses the need for complex vector-database setups during training
 
 ## Conclusions
 
-Our evaluations on long-context retrieval and memory-oriented benchmarks yield four key conclusions:
-
 ### 1. State-of-the-Art Retrieval Performance
-EvoEmbedding establishes superior performance across 10 benchmarks, consistently outperforming larger-scale specialist models (e.g., Qwen3-Embedding-8B and KaLM-Embedding-Gemma3-12B) with significantly smaller parameter sizes.
+EvoEmbedding achieves superior results across 10 benchmarks, outperforming established static and larger-scale specialist models (such as Qwen3-Embedding-8B and KaLM-Embedding-Gemma3-12B) with smaller parameter sizes.
 
 <p align="center">
-  <img src="docs/assets/performance.png" alt="EvoEmbedding performance" width="95%" />
+  <img src="docs/assets/Comparison.png" alt="EvoEmbedding performance" width="95%" />
+</p>
+<p align="center">
+  <img src="docs/assets/rag.png" alt="naiverag" width="95%" />
 </p>
 
-### 2. Naive RAG powered by EvoEmbedding Surpasses Specialized Agentic Memory
-Equipped with EvoEmbedding-4B, a standard naive RAG pipeline utilizing only the retrieved Top-8 segments outperforms complex, dedicated agentic memory architectures (such as Mem0 and MemoryOS) while incurring **zero explicit memory construction token cost** at test time.
+### 2. Naive RAG Powered by EvoEmbedding Surpasses Dedicated Agentic Memory
+A standard naive RAG pipeline using EvoEmbedding-4B outperforms complex, dedicated agentic memory architectures (such as Mem0 and MemoryOS) while requiring no explicit memory construction token overhead at test time.
 
 <p align="center">
-  <img src="docs/assets/Comparsion.png" alt="EvoEmbedding comparison" width="85%" />
+  <img src="docs/assets/longmemeval.png" alt="EvoEmbedding performance vs token cost on LongMemEval" width="85%" />
 </p>
 
-### 3. Plug-and-Play Enhancement for Existing Agentic Workflows
-EvoEmbedding is highly compatible as a drop-in upgrade. Integrating it into existing baseline frameworks (like A-MEM and LightMem) yields substantial performance gains (+19.2% and +13.5% respectively) without requiring any modifications to the core generation models.
+### 3. Plug-and-Play Compatibility with Agentic Workflows
+EvoEmbedding is highly compatible as a drop-in replacement. Integrating it into existing baseline frameworks (like A-MEM and LightMem) yields substantial performance gains (+19.2% and +13.5% respectively) without modifying the core generative LLMs.
 
-### 4. High Chronological and Temporal Sensitivity
-Unlike static embeddings that suffer from representation entanglement in long histories, EvoEmbedding's latent space is highly sensitive to chronological order. It successfully decouples temporal intents, naturally excelling at queries constrained by temporal keywords (e.g., "firstly", "lastly").
+<p align="center">
+  <img src="docs/assets/agent.png" alt="Improvements" width="95%" />
+</p>
+
+### 4. Temporal retrieval capabilities.
+Unlike static embeddings that suffer from representation entanglement in long histories, EvoEmbedding's latent space is highly sensitive to chronological order. It successfully decouples temporal intents, excelling at queries constrained by temporal keywords (such as "firstly" and "lastly").
+
+<p align="center">
+  <img src="docs/assets/vis.png" alt="Temporal Sensitivity Analysis" width="95%" />
+</p>
 
 ## Quick Start
 
