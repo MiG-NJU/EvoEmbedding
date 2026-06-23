@@ -1,0 +1,14 @@
+torch
+transformers
+datasets
+trl
+peft
+accelerate
+sentence-transformers
+faiss-cpu
+rank-bm25
+jieba
+numpy
+openai
+httpx
+tqdm

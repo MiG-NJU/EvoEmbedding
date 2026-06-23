@@ -1,0 +1,184 @@
+/* 通讯作者小图标样式 */
+.corresp-icon {
+    font-size: 0.7rem;
+    color: #555;
+    vertical-align: super;
+    margin-left: 4px;
+}
+
+/* 通讯作者底部说明文字样式 */
+.corresp-note {
+    font-size: 0.85rem;
+    color: #777;
+    margin-top: -15px;
+    margin-bottom: 25px;
+}
+/* 全局重置与基础设置 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Google Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: #333;
+    background-color: #fafafa;
+    line-height: 1.6;
+    font-size: 16px;
+}
+
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    background-color: #fff;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+/* Header 样式 */
+.header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.title {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    line-height: 1.3;
+    margin-bottom: 20px;
+}
+
+.authors {
+    font-size: 1.1rem;
+    margin-bottom: 5px;
+}
+
+.author {
+    color: #0066cc;
+    font-weight: 500;
+}
+
+.affiliation {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 25px;
+    font-style: italic;
+}
+
+/* 按钮样式 */
+.links {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 18px;
+    background-color: #24292e;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 20px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.button:hover {
+    background-color: #0366d6;
+    transform: translateY(-2px);
+}
+
+/* 章节排版 */
+.section {
+    margin-bottom: 50px;
+}
+
+.section-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #222;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 8px;
+}
+
+.text, .abstract-text {
+    font-size: 1.05rem;
+    color: #444;
+    margin-bottom: 15px;
+    text-align: justify;
+}
+
+/* 图片与图注样式 */
+.figure {
+    text-align: center;
+    margin: 30px 0;
+}
+
+.figure img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 6px;
+}
+
+.shadow-box img {
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1); /* 为表格加一点阴影更好看 */
+    border: 1px solid #eaeaea;
+}
+
+.caption {
+    font-size: 0.9rem;
+    color: #555;
+    text-align: justify;
+    margin-top: 15px;
+    line-height: 1.5;
+    background-color: #f8f9fa;
+    padding: 12px 15px;
+    border-left: 4px solid #0066cc;
+    border-radius: 0 4px 4px 0;
+}
+
+/* Bibtex 块 */
+.bibtex-container {
+    background-color: #f6f8fa;
+    border-radius: 6px;
+    padding: 15px;
+    overflow-x: auto;
+    border: 1px solid #d1d5da;
+}
+
+.bibtex-container pre {
+    font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+    font-size: 0.9rem;
+    color: #24292e;
+}
+
+/* Footer */
+.footer {
+    text-align: center;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+    font-size: 0.85rem;
+    color: #777;
+}
+
+.footer a {
+    color: #0066cc;
+    text-decoration: none;
+}
+
+.footer a:hover {
+    text-decoration: underline;
+}
+
+/* 移动端响应式 */
+@media (max-width: 600px) {
+    .title { font-size: 1.8rem; }
+    .container { padding: 20px 15px; }
+}
