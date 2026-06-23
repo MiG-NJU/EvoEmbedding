@@ -11,7 +11,7 @@ from model.evo_embedding import EvoRAGConfig, EvoRAGModel
 
 def parse_args():
     parser = argparse.ArgumentParser(description="Train EvoEmbedding.")
-    parser.add_argument("--dataset_name", default="ClareNie/EvoEmbedding-Dataset")
+    parser.add_argument("--dataset_name", default="MiG-NJU/EvoEmbedding-Dataset")
     parser.add_argument("--dataset_split", default="train")
     parser.add_argument("--base_model", default="Qwen/Qwen3-4B-Instruct-2507")
     parser.add_argument("--output_dir", default="./output/evoembedding-4b")

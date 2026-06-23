@@ -4,7 +4,7 @@
 
 <div align="center">
 
-<a href="https://clare-nie.github.io/EvoEmbedding/">
+<a href="https://mig-nju.github.io/EvoEmbedding/">
   <img src="https://img.shields.io/badge/%F0%9F%8F%A0%20Project%20Page-2f74c0?style=for-the-badge" alt="Project Page" />
 </a>
 <a href="https://arxiv.org/abs/0000.00000">
@@ -13,7 +13,7 @@
 <a href="https://huggingface.co/ClareNie/EvoEmbedding-4B">
   <img src="https://img.shields.io/badge/%F0%9F%A4%97%20HF%20Model-c9a400?style=for-the-badge" alt="HF Model" />
 </a>
-<a href="https://huggingface.co/datasets/ClareNie/EvoEmbedding-Dataset">
+<a href="https://huggingface.co/datasets/MiG-NJU/EvoEmbedding-Dataset">
   <img src="https://img.shields.io/badge/%F0%9F%93%9A%20Training%20Data-dc7a2a?style=for-the-badge" alt="Training Data" />
 </a>
 
@@ -218,7 +218,7 @@ Train the model size with its matching base model and dependency file:
 conda activate evoemb
 pip install -r requirements-evoembedding-4b.txt
 PYTHONPATH=. torchrun --nproc_per_node=8 train/train.py \
-  --dataset_name ClareNie/EvoEmbedding-Dataset \
+  --dataset_name MiG-NJU/EvoEmbedding-Dataset \
   --base_model Qwen/Qwen3-4B-Instruct-2507 \
   --output_dir ./output/evoembedding-4b
 ```
