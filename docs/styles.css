@@ -28,7 +28,7 @@ body {
     background: var(--wash);
     color: var(--ink);
     font-family: "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    font-size: 16px;
+    font-size: 15px;
     line-height: 1.7;
     -webkit-font-smoothing: antialiased;
 }
@@ -81,7 +81,7 @@ img {
     display: inline-flex;
     align-items: center;
     color: var(--ink);
-    font-size: 1.38rem;
+    font-size: 1.3rem;
     font-weight: 800;
     white-space: nowrap;
 }
@@ -118,7 +118,7 @@ img {
     color: var(--muted);
     border: 1px solid transparent;
     border-radius: 8px;
-    font-size: 1rem;
+    font-size: 0.94rem;
     font-weight: 700;
     transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
 }
@@ -166,7 +166,7 @@ img {
 
 .hero-title {
     margin-bottom: 10px;
-    font-size: clamp(3rem, 8vw, 6.4rem);
+    font-size: clamp(2.75rem, 7.5vw, 5.9rem);
     font-weight: 800;
     line-height: 0.98;
     letter-spacing: 0;
@@ -188,7 +188,7 @@ img {
     max-width: 780px;
     margin: 0 auto 22px;
     color: #80868b;
-    font-size: clamp(1.28rem, 3vw, 2.05rem);
+    font-size: clamp(1.16rem, 2.6vw, 1.82rem);
     font-weight: 800;
     line-height: 1.25;
 }
@@ -200,7 +200,7 @@ img {
     gap: 8px 20px;
     margin-bottom: 4px;
     color: var(--blue);
-    font-size: 1.05rem;
+    font-size: 0.98rem;
     font-weight: 700;
 }
 
@@ -223,7 +223,7 @@ img {
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    font-size: 0.98rem;
+    font-size: 0.92rem;
     font-weight: 600;
 }
 
@@ -252,7 +252,7 @@ img {
     min-height: 44px;
     padding: 10px 18px;
     border-radius: 8px;
-    font-size: 0.96rem;
+    font-size: 0.9rem;
     font-weight: 800;
     line-height: 1;
     transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
@@ -261,7 +261,9 @@ img {
 .btn:hover {
     transform: translateY(-2px);
 }
-
+#models .section-heading {
+    margin-bottom: 96px;
+}
 .btn-primary {
     color: #fff;
     background: var(--blue);
@@ -301,7 +303,7 @@ img {
 
 .section-title {
     color: var(--ink);
-    font-size: clamp(2rem, 4vw, 3.1rem);
+    font-size: clamp(1.82rem, 3.4vw, 2.72rem);
     font-weight: 800;
     line-height: 1.08;
     letter-spacing: 0;
@@ -310,7 +312,7 @@ img {
 .section-subtitle,
 .lead {
     color: var(--muted);
-    font-size: 1.08rem;
+    font-size: 1rem;
 }
 
 .section-subtitle {
@@ -324,8 +326,8 @@ img {
 }
 
 .feature-card {
-    min-height: 390px;
-    padding: 46px 34px 38px;
+    min-height: 340px;
+    padding: 36px 28px 32px;
     border: 1px solid var(--line);
     border-radius: 24px;
     box-shadow: var(--shadow-soft);
@@ -348,15 +350,15 @@ img {
 }
 
 .feature-icon {
-    width: 96px;
-    height: 96px;
+    width: 84px;
+    height: 84px;
     display: grid;
     place-items: center;
-    margin-bottom: 42px;
+    margin-bottom: 30px;
     color: var(--blue);
     background: rgba(255, 255, 255, 0.9);
-    border-radius: 22px;
-    font-size: 2rem;
+    border-radius: 20px;
+    font-size: 1.68rem;
 }
 
 .feature-card--pink .feature-icon {
@@ -372,9 +374,9 @@ img {
 }
 
 .feature-card h3 {
-    margin-bottom: 18px;
+    margin-bottom: 12px;
     color: var(--ink);
-    font-size: 1.72rem;
+    font-size: 1.34rem;
     font-weight: 800;
     line-height: 1.25;
     max-width: 11ch;
@@ -382,8 +384,8 @@ img {
 
 .feature-card p {
     color: #70757a;
-    font-size: 1.12rem;
-    line-height: 1.75;
+    font-size: 0.96rem;
+    line-height: 1.65;
 }
 
 .model-grid {
@@ -412,7 +414,7 @@ img {
 
 .model-top i {
     color: var(--blue);
-    font-size: 2rem;
+    font-size: 1.82rem;
 }
 
 .model-size {
@@ -425,14 +427,14 @@ img {
     color: #fff;
     background: var(--blue);
     border-radius: 999px;
-    font-size: 1.1rem;
+    font-size: 1rem;
     font-weight: 800;
 }
 
 .model-card h3 {
     margin-bottom: 14px;
     color: var(--ink);
-    font-size: 1.45rem;
+    font-size: 1.3rem;
     font-weight: 800;
     line-height: 1.25;
 }
@@ -440,7 +442,7 @@ img {
 .model-name {
     max-width: 360px;
     color: #5f6368;
-    font-size: 1.2rem;
+    font-size: 1.05rem;
     font-weight: 700;
     line-height: 1.55;
 }
@@ -469,7 +471,7 @@ img {
     background: var(--paper);
     border: 1px solid var(--line);
     border-radius: var(--radius);
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     font-weight: 800;
     box-shadow: var(--shadow-soft);
 }
@@ -519,6 +521,10 @@ img {
     padding: 90px 0;
 }
 
+#features .section-heading {
+    margin-bottom: 128px;
+}
+
 .conclusion-panel {
     width: min(100%, 1120px);
     margin: 0 auto;
@@ -565,7 +571,7 @@ img {
 .conclusion-content h3 {
     margin-bottom: 9px;
     color: var(--blue);
-    font-size: clamp(1.34rem, 2vw, 1.72rem);
+    font-size: clamp(1.16rem, 1.7vw, 1.46rem);
     font-weight: 800;
     line-height: 1.15;
 }
@@ -573,7 +579,7 @@ img {
 .conclusion-content p {
     max-width: 900px;
     color: #737b8c;
-    font-size: clamp(1rem, 1.5vw, 1.16rem);
+    font-size: clamp(0.94rem, 1.25vw, 1.04rem);
     font-weight: 500;
     line-height: 1.55;
 }
@@ -587,7 +593,7 @@ img {
     background: #f7f8ff;
     border: 1px solid #e4e7ff;
     border-radius: 50%;
-    font-size: 1.75rem;
+    font-size: 1.55rem;
     font-weight: 500;
     line-height: 1;
 }
@@ -632,7 +638,7 @@ img {
 .bibtex-container code {
     color: #edf2f7;
     font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
-    font-size: 0.93rem;
+    font-size: 0.88rem;
     line-height: 1.65;
 }
 
@@ -651,7 +657,7 @@ img {
 
 .footer h3 {
     color: #fff;
-    font-size: 1.1rem;
+    font-size: 1rem;
     font-weight: 800;
 }
 
