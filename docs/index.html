@@ -89,17 +89,39 @@
             </div>
         </section>
 
-        <section id="results" class="section section--white">
+        <section id="models" class="section section--white">
             <div class="container">
                 <div class="section-heading">
-                    <h2 class="section-title">Superior Performance</h2>
-                    <p class="section-subtitle">EvoEmbedding delivers strong retrieval and generation results across dynamic long-context benchmarks.</p>
+                    <h2 class="section-title">Models &amp; Performance</h2>
                 </div>
-                <figure class="figure figure--large">
+                <div class="model-grid">
+                    <article class="model-card">
+                        <div class="model-top">
+                            <i class="fas fa-cube"></i>
+                            <span class="model-size">0.8B</span>
+                        </div>
+                        <h3>EvoEmbedding-0.8B</h3>
+                        <p class="model-name">Ultra-efficient variant, outperforming much larger static baselines.</p>
+                    </article>
+                    <article class="model-card">
+                        <div class="model-top">
+                            <i class="fas fa-cube"></i>
+                            <span class="model-size">2B</span>
+                        </div>
+                        <h3>EvoEmbedding-2B</h3>
+                        <p class="model-name">The optimal balance between inference speed and retrieval accuracy.</p>
+                    </article>
+                    <article class="model-card">
+                        <div class="model-top">
+                            <i class="fas fa-cube"></i>
+                            <span class="model-size">4B</span>
+                        </div>
+                        <h3>EvoEmbedding-4B</h3>
+                        <p class="model-name">Our SOTA flagship, dominating long-context retrieval and memory tasks.</p>
+                    </article>
+                </div>
+                <figure class="figure figure--large figure--plain figure--radar">
                     <img src="assets/Comparsion.png" alt="Performance comparison radar chart">
-                    <figcaption>
-                        <strong>Figure 1.</strong> Performance comparison across long-context retrieval and generation tasks. EvoEmbedding achieves superior results across 10 benchmarks and is especially strong in dynamic contexts such as long-term personalization.
-                    </figcaption>
                 </figure>
             </div>
         </section>
@@ -119,9 +141,6 @@
                 </div>
                 <figure class="figure">
                     <img src="assets/framework.png" alt="EvoEmbedding architecture overview">
-                    <figcaption>
-                        <strong>Figure 3.</strong> Memory evolution compresses each segment and integrates previous memory into a FIFO latent queue. Representation generation combines that historical latent memory with the current segment to produce contextually evolvable embeddings.
-                    </figcaption>
                 </figure>
             </div>
         </section>
@@ -134,9 +153,6 @@
                 </div>
                 <figure class="figure figure--table">
                     <img src="assets/performance.png" alt="Evaluation results on LoCoMo and LongMemEval">
-                    <figcaption>
-                        <strong>Tables 2 &amp; 3.</strong> Evaluation results on LoCoMo and LongMemEval. EvoEmbedding achieves the highest overall accuracy while using only retrieved Top-8 segments and zero explicit memory construction token cost at test time.
-                    </figcaption>
                 </figure>
             </div>
         </section>
@@ -149,9 +165,6 @@
                 </div>
                 <figure class="figure">
                     <img src="assets/vis.png" alt="Temporal query sensitivity analysis">
-                    <figcaption>
-                        <strong>Figure 6.</strong> Similarity curves and t-SNE visualizations show that EvoEmbedding decouples temporal intents such as "firstly" and "lastly", while baseline representations remain entangled.
-                    </figcaption>
                 </figure>
             </div>
         </section>
