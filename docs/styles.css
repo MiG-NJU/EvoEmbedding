@@ -659,6 +659,25 @@ img {
     gap: 24px;
 }
 
+.footer-credit {
+    margin-top: 24px;
+    padding-top: 18px;
+    color: #9aa0a6;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    font-size: 0.86rem;
+    text-align: center;
+}
+
+.footer-credit a {
+    color: #d2d7df;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.footer-credit a:hover {
+    color: #fff;
+}
+
 .footer h3 {
     color: #fff;
     font-size: 1rem;
