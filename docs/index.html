@@ -59,18 +59,33 @@
     </header>
 
     <main>
-        <section id="abstract" class="section section--white">
-            <div class="container narrow">
-                <h2 class="section-title">Abstract</h2>
-                <p class="lead">
-                    EvoEmbedding generates evolvable representations for retrieval in long-context scenarios, where information is temporally dynamic, entangled, and requires continuous state tracking.
-                </p>
-                <p>
-                    The model maintains a continuously updated latent memory while sequentially processing inputs, then uses that memory alongside the raw content to generate context-aware embeddings. Given the same instruction, the resulting representation can match distinct content depending on the current context, going beyond static semantic search. To support this, we construct <strong>EvoTrain-180K</strong>, a diverse dataset for jointly optimizing latent memory and retrieval.
-                </p>
-                <p>
-                    Extensive experiments show that EvoEmbedding outperforms larger-scale specialists such as Qwen3-Embedding-8B and KaLM-Embedding-Gemma3-12B across long-context retrieval benchmarks, while generalizing to downstream tasks such as personalization with contexts 10x longer than its training window.
-                </p>
+        <section id="features" class="section section--white">
+            <div class="container">
+                <div class="section-heading">
+                    <h2 class="section-title">Key Features</h2>
+                </div>
+                <div class="features-grid">
+                    <article class="feature-card feature-card--blue">
+                        <div class="feature-icon"><i class="fas fa-wand-magic-sparkles"></i></div>
+                        <h3>Evolvable</h3>
+                        <p>Embeddings evolve with the context, so the same query can point to different states over time.</p>
+                    </article>
+                    <article class="feature-card feature-card--pink">
+                        <div class="feature-icon"><i class="fas fa-chart-line"></i></div>
+                        <h3>Scalability</h3>
+                        <p>Designed for long contexts and large retrieval windows without heavy memory overhead.</p>
+                    </article>
+                    <article class="feature-card feature-card--green">
+                        <div class="feature-icon"><i class="fas fa-globe"></i></div>
+                        <h3>General-purpose</h3>
+                        <p>Works across retrieval, personalization, and other general embedding tasks with broad utility.</p>
+                    </article>
+                    <article class="feature-card feature-card--yellow">
+                        <div class="feature-icon"><i class="fas fa-clock"></i></div>
+                        <h3>Temporal Retrieval</h3>
+                        <p>Preserves ordering cues and matches temporal intents such as first, latest, and last.</p>
+                    </article>
+                </div>
             </div>
         </section>
 
