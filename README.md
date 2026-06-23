@@ -1,16 +1,43 @@
+<p align="center">
+  <img src="docs/assets/icon.png" alt="EvoEmbedding" width="100%" />
+</p>
+
+<div align="center">
+
 # EvoEmbedding
 
-EvoEmbedding is a retrieval- and memory-oriented embedding project built on top of Qwen-based models. This repository contains the model code, training entrypoint, and evaluation scripts.
+**Evolvable Embedding for Long-Context Retrieval**
 
-## Links
+[Project](https://github.com/Clare-Nie/EvoEmbedding) ·
+[Dataset](https://huggingface.co/datasets/ClareNie/EvoEmbedding-Dataset) ·
+[0.8B](https://huggingface.co/ClareNie/EvoEmbedding-0.8B) ·
+[2B](https://huggingface.co/ClareNie/EvoEmbedding-2B) ·
+[4B](https://huggingface.co/ClareNie/EvoEmbedding-4B)
 
-- Project: https://github.com/Clare-Nie/EvoEmbedding
-- Dataset: https://huggingface.co/datasets/ClareNie/EvoEmbedding-Dataset
-- Model 0.8B: https://huggingface.co/ClareNie/EvoEmbedding-0.8B
-- Model 2B: https://huggingface.co/ClareNie/EvoEmbedding-2B
-- Model 4B: https://huggingface.co/ClareNie/EvoEmbedding-4B
+</div>
 
-## What is in this repo
+---
+
+EvoEmbedding is a memory-aware embedding framework for long-context retrieval. This repository provides the model implementation, training entrypoint, and evaluation scripts used in the release.
+
+## Highlights
+
+- Evolvable memory and representation generation in one model.
+- Support for long-context retrieval and memory-oriented evaluation.
+- Released checkpoints at 0.8B, 2B, and 4B.
+- A compact codebase for training, inference, and benchmarking.
+
+## Released Resources
+
+| Resource | Link |
+| --- | --- |
+| Project repository | https://github.com/Clare-Nie/EvoEmbedding |
+| Dataset | https://huggingface.co/datasets/ClareNie/EvoEmbedding-Dataset |
+| EvoEmbedding-0.8B | https://huggingface.co/ClareNie/EvoEmbedding-0.8B |
+| EvoEmbedding-2B | https://huggingface.co/ClareNie/EvoEmbedding-2B |
+| EvoEmbedding-4B | https://huggingface.co/ClareNie/EvoEmbedding-4B |
+
+## Repository Layout
 
 - `model/`: EvoEmbedding model implementation and client.
 - `train/train.py`: training entrypoint.
@@ -18,21 +45,15 @@ EvoEmbedding is a retrieval- and memory-oriented embedding project built on top 
 - `eval/eval.sh`: batch launcher for benchmark sweeps.
 - `docs/`: static project page assets.
 
-## Installation
+## Quick Start
+
+Install dependencies:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-Recommended environment:
-
-- Python 3.10+
-- PyTorch with BF16 support
-- CUDA-capable GPU
-
-## Training
-
-The default training script loads the published dataset and a Qwen base model:
+Train with the released dataset:
 
 ```bash
 PYTHONPATH=. torchrun --nproc_per_node=8 train/train.py \
@@ -41,21 +62,7 @@ PYTHONPATH=. torchrun --nproc_per_node=8 train/train.py \
   --output_dir ./output/evoembedding-4b
 ```
 
-Key arguments:
-
-- `--dataset_name`: Hugging Face dataset name
-- `--dataset_split`: dataset split, default `train`
-- `--base_model`: base model used for training
-- `--num_latents`: number of latent memory slots
-- `--buffer_capacity`: memory buffer size
-- `--max_length`: sequence length during training
-- `--chat_template`: optional custom chat template file
-
-## Evaluation
-
-The evaluation stack is centered on `eval/eval.py`. `eval/eval.sh` is a batch launcher that schedules multiple benchmark runs.
-
-Single run:
+Run a single evaluation:
 
 ```bash
 PYTHONPATH=. python eval/eval.py \
@@ -66,49 +73,36 @@ PYTHONPATH=. python eval/eval.py \
   --embedding_model Qwen/Qwen3-Embedding-0.6B
 ```
 
-Batch run:
+Run the batch evaluation script:
 
 ```bash
 PYTHONPATH=. bash eval/eval.sh
 ```
 
-Supported benchmarks include:
-
-- `locomo`
-- `longmemeval_s`
-- `membencheval`
-- `personamem32`
-- `personamem128`
-- `PersonaMME32`
-- `PersonaMME128`
-- `PersonaRAGBench`
-
 ## Model Client
 
-`model/client.py` exposes:
+`model/client.py` provides:
 
 - `EvoEmbeddingClient` / `EvoRAGClient`
 - `OpenAIClient`
 - `qwen3_client`
 
-By default, `EvoEmbeddingClient` loads:
-
-- `ClareNie/EvoEmbedding-4B`
-
-## Repository layout
-
-```text
-EvoEmbedding/
-├── model/
-├── train/
-├── eval/
-├── docs/
-└── requirements.txt
-```
+By default, `EvoEmbeddingClient` loads `ClareNie/EvoEmbedding-4B`.
 
 ## Notes
 
-- This repo does not include the dataset itself.
+- This repository does not include the dataset itself.
 - The Hugging Face model repos contain inference files only.
-- The evaluation scripts expect the benchmark data under `./data/`.
+- The evaluation scripts expect benchmark data under `./data/`.
+
+## Citation
+
+```bibtex
+@article{nie2026evoembedding,
+  title={Evolvable Embedding for Long-Context Retrieval},
+  author={Nie, Chang and Fu, Chaoyou and Shan, Caifeng},
+  journal={arXiv preprint},
+  year={2026}
+}
+```
 
