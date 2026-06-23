@@ -665,6 +665,11 @@ img {
     font-weight: 800;
 }
 
+.footer h3 .brand-evo,
+.footer h3 .brand-embedding {
+    letter-spacing: 0;
+}
+
 .footer p {
     margin-top: 4px;
     color: #bdc1c6;
