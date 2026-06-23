@@ -99,7 +99,7 @@ Here is a representative structural example (intermediate context omitted for br
 
 ### Training on Custom Datasets
 
-Our JSON schema makes it **extremely straightforward to adapt EvoEmbedding to your custom data**, whether it's document QA, customer support logs, or specialized RAG databases.
+Our JSON schema makes it **straightforward to adapt EvoEmbedding to your custom data**, whether it's document QA, customer support logs, or specialized RAG databases.
 
 To construct your own training data, simply follow these 3 steps:
 1. **Chunk your context:** Map your document chunks, paragraphs, or chat turns sequentially into the `meta.turns` list.
