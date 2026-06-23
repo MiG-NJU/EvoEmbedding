@@ -1,3 +1,3 @@
-from . import longmemeval, locomoeval, personamemeval, membencheval, personaeval
+from . import longmemeval, locomoeval, personamemeval, personamme
 
-__all__ = ['longmemeval', 'locomoeval', 'personamemeval', 'membencheval', 'personaeval', 'personamme']
+__all__ = ['longmemeval', 'locomoeval', 'personamemeval', 'personamme']

@@ -18,7 +18,6 @@ def load_rows(csv_path):
             res.append(row_data)
     return res
 
-# 【修改2】补充 emb_model_name 参数
 def get_response_rag(model, messages, rag_sentence_num, emb_model_name="sentence-transformers/all-MiniLM-L6-v2"):
     query_message = messages[-1]
     history_messages = messages[:-1]
@@ -60,15 +59,15 @@ def get_response_rag(model, messages, rag_sentence_num, emb_model_name="sentence
             search_candidate_indices.append(idx)
 
     if not search_candidates:
-         final_context_messages = []
-         for idx in sorted(list(keep_chunks)):
-             final_context_messages.extend(turn_chunks[idx])
-         final_context_messages = [
-             msg for msg in final_context_messages
-             if not (msg.get("content", "") == "" and msg.get("role") in ("user", "assistant"))
-         ]
-         final_messages = final_context_messages + [query_message]
-         return model.send_message(final_messages)
+        final_context_messages = []
+        for idx in sorted(list(keep_chunks)):
+            final_context_messages.extend(turn_chunks[idx])
+        final_context_messages = [
+            msg for msg in final_context_messages
+            if not (msg.get("content", "") == "" and msg.get("role") in ("user", "assistant"))
+        ]
+        final_messages = final_context_messages + [query_message]
+        return model.send_message(final_messages)
 
     k = max(1, min(rag_sentence_num, len(search_candidates)))
     if emb_model_name == "grep":
@@ -152,12 +151,8 @@ def get_response_rag_ours(model, messages, rag_sentence_num):
 
 
 def get_dataset(DATA_PATH):
-    if "personamem32" in DATA_PATH:
-        path = "./data/benchmark/personaMem/shared_contexts_32k.jsonl"
-        questions_path = "./data/benchmark/personaMem/questions_32k.csv"
-    else:
-        path = "./data/benchmark/personaMem/shared_contexts_128k.jsonl"
-        questions_path = "./data/benchmark/personaMem/questions_128k.csv"
+    path = "./data/benchmark/personaMem/shared_contexts_32k.jsonl"
+    questions_path = "./data/benchmark/personaMem/questions_32k.csv"
     dataset = {}
     with open(path, "r") as f:
         samples = [json.loads(line) for line in f]
@@ -179,7 +174,6 @@ def get_dataset(DATA_PATH):
             continue
         dataset[key]["question"].sort(key=lambda x: int(x.get("end_index_in_shared_context", 0)))
         question_number += len(dataset[key]["question"])
-        print(key, len(dataset[key]["question"]), [q["end_index_in_shared_context"] for q in dataset[key]["question"]])
     print(f"Total questions: {question_number}")
     return dataset
 
@@ -271,9 +265,3 @@ def eval(DATA_PATH, eval_method, rag_sentence_num, save_path, model_name, embedd
             print_metrics(result)
             with open(save_path, "w", encoding="utf-8") as f:
                 json.dump(result, f, ensure_ascii=False, indent=4)
-            # If evaluating the 128k dataset, stop when we've collected 1000 results
-            if "128" in DATA_PATH and len(result) >= 1000:
-                print("Reached 1000 results for 128k dataset, stopping early.")
-                return
-
-
