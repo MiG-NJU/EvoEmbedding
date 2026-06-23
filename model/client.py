@@ -236,23 +236,47 @@ class EvoEmbeddingClient:
         output_ids = generated_ids[0][input_len:].tolist()
         return self.tokenizer.decode(output_ids, skip_special_tokens=True)
 
+    def encode_messages(self, messages, native=False):
+        history_turns = self._messages_to_turns(messages[:-1])
+        query = messages[-1]["content"].strip()
+        texts = history_turns + [query]
+        return self.model.encode_texts_with_memory(
+            texts,
+            history_turns=history_turns,
+            tokenizer=self.tokenizer,
+            native=native,
+        )
+
+    def rerank(self, query, candidates, top_k=None, native=False, return_indices=False):
+        candidates = list(candidates)
+        if not candidates:
+            return ([], []) if return_indices else []
+
+        messages = []
+        for candidate in candidates:
+            messages.extend(
+                [
+                    {"role": "user", "content": str(candidate)},
+                    {"role": "assistant", "content": ""},
+                ]
+            )
+        messages.append({"role": "user", "content": query})
+
+        top_k = len(candidates) if top_k is None else max(0, min(top_k, len(candidates)))
+        ranked_indices = self.send_message_retrieve(
+            messages,
+            rag_sentence_num=top_k,
+            native=native,
+            _sorted=False,
+        )
+        ranked_candidates = [candidates[idx] for idx in ranked_indices]
+        if return_indices:
+            return ranked_candidates, ranked_indices
+        return ranked_candidates
+
     def send_message_retrieve(self, message, rag_sentence_num, native=False, _sorted=True):
         model_inputs = self._tokenize(message)
-        turns = []
-        for turn_idx, msg in enumerate(message[:-1]):
-            if turn_idx % 2 != 0:
-                continue
-            if turn_idx + 1 >= len(message):
-                turns.append(f"User: {msg['content']}")
-                continue
-            assistant_msg = message[turn_idx + 1]
-            if not msg["content"]:
-                content = f"Assistant: {assistant_msg['content']}"
-            elif not assistant_msg["content"]:
-                content = f"User: {msg['content']}"
-            else:
-                content = f"User: {msg['content']}\nAssistant: {assistant_msg['content']}"
-            turns.append(content)
+        turns = self._messages_to_turns(message[:-1])
 
         turns.append(message[-1]["content"].strip())
         meta = {"turns": [self.tokenizer(turn)["input_ids"] for turn in turns]}
@@ -263,6 +287,24 @@ class EvoEmbeddingClient:
         )
         retrieve_indices = retrieve_results["sorted_indices"].tolist()[:rag_sentence_num]
         return sorted(retrieve_indices) if _sorted else retrieve_indices
+
+    def _messages_to_turns(self, messages):
+        turns = []
+        for turn_idx, msg in enumerate(messages):
+            if turn_idx % 2 != 0:
+                continue
+            if turn_idx + 1 >= len(messages):
+                turns.append(f"User: {msg['content']}")
+                continue
+            assistant_msg = messages[turn_idx + 1]
+            if not msg["content"]:
+                content = f"Assistant: {assistant_msg['content']}"
+            elif not assistant_msg["content"]:
+                content = f"User: {msg['content']}"
+            else:
+                content = f"User: {msg['content']}\nAssistant: {assistant_msg['content']}"
+            turns.append(content)
+        return turns
 
     def _tokenize(self, message):
         text = self.tokenizer.apply_chat_template(

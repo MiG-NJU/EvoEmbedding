@@ -149,32 +149,18 @@ Use the matching environment and dependency file for the model family you want t
 
 | Model size | Conda env | Requirements |
 | --- | --- | --- |
-| EvoEmbedding-0.8B / EvoEmbedding-2B | `evoemb` | `requirements-evoembedding-lite.txt` |
+| EvoEmbedding-0.8B / 2B | `evoemb` | `requirements-evoembedding-lite.txt` |
 | EvoEmbedding-4B | `evoemb` | `requirements-evoembedding-4b.txt` |
-
-```bash
-conda activate evoemb
-pip install -r requirements-evoembedding-lite.txt
-```
-
-For the 4B model family:
 
 ```bash
 conda activate evoemb
 pip install -r requirements-evoembedding-4b.txt
 ```
 
-Recommended runtime:
-
-- Python 3.10+
-- PyTorch with CUDA support
-- BF16-capable GPU
-
 ### Usage
 
-`EvoEmbeddingClient` loads `ClareNie/EvoEmbedding-4B` by default. The client supports two common retrieval inputs: chat-style `messages` for EvoEmbedding's native context encoding, and candidate lists for reranking.
 
-#### EvoEmbedding with Messages
+#### As an Embedding Model
 
 ```python
 from model.client import EvoEmbeddingClient
@@ -189,60 +175,30 @@ messages = [
     {"role": "user", "content": "Where did I travel in spring?"},
 ]
 
-retrieved_turn_indices = client.send_message_retrieve(
-    messages,
-    rag_sentence_num=2,
-    _sorted=False,
-)
+embeddings = client.encode_messages(messages)
 ```
 
-The `messages` input preserves the original dialogue order and lets EvoEmbedding build evolvable contextual representations before retrieval.
+The `messages` input preserves the original dialogue order. `encode_messages` returns normalized embeddings for the history turns and the final query.
 
-#### Reranker with Candidate List
+#### As a Reranker
 
 ```python
-from model.client import EvoEmbeddingClient
-
-client = EvoEmbeddingClient()
-
-candidate_turns = [
-    {
-        "user": "I visited Paris in April.",
-        "assistant": "Noted.",
-    },
-    {
-        "user": "I bought a new laptop yesterday.",
-        "assistant": "Got it.",
-    },
-    {
-        "user": "The meeting was moved to Friday.",
-        "assistant": "I will remember that.",
-    },
+candidates = [
+    "I visited Paris in April.",
+    "I bought a new laptop yesterday.",
+    "The meeting was moved to Friday.",
 ]
 query = "Where did I travel in spring?"
 
-messages = []
-for turn in candidate_turns:
-    messages.extend(
-        [
-            {"role": "user", "content": turn["user"]},
-            {"role": "assistant", "content": turn["assistant"]},
-        ]
-    )
-messages.append({"role": "user", "content": query})
-
-ranked_turn_indices = client.send_message_retrieve(
-    messages,
-    rag_sentence_num=len(candidate_turns),
-    _sorted=False,
+ranked_candidates, ranked_indices = client.rerank(
+    query,
+    candidates,
+    top_k=1,
+    return_indices=True,
 )
-
-ranked_turns = [candidate_turns[idx] for idx in ranked_turn_indices]
 ```
 
-For reranking, `candidate_turns` is the user-facing list to reorder. `_sorted=False` keeps the model's relevance order instead of sorting by chronology. In this example, the Paris turn should be ranked before unrelated laptop or meeting turns.
-
-For other released model sizes, pass `model_path` and the matching `tokenizer_name` explicitly when constructing `EvoEmbeddingClient`.
+The reranker takes a direct list of candidate strings and returns them in relevance order.
 
 ### Training
 
@@ -277,14 +233,6 @@ Run the batch evaluation script:
 ```bash
 PYTHONPATH=. bash eval/eval.sh
 ```
-
-The current evaluation entrypoint keeps the following benchmarks:
-
-- `locomo`
-- `longmemeval_s`
-- `personamem32`
-- `PersonaMME32`
-- `PersonaMME128`
 
 ## Repository Structure
 
