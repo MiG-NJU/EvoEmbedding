@@ -172,62 +172,176 @@ Recommended runtime:
 
 ### Usage
 
-`model/client.py` exposes both the dense embedding helper and the EvoEmbedding reranker interface.
-
-#### Embedding Model
-
-```python
-import numpy as np
-
-from model.client import get_text_embedding
-
-history_turns = [
-    "I visited Paris in April.",
-    "I bought a new laptop yesterday.",
-    "The meeting was moved to Friday.",
-]
-query = "Where did I travel in spring?"
-
-query_emb = get_text_embedding(
-    query,
-    model_name="Qwen/Qwen3-Embedding-0.6B",
-    is_query=True,
-)
-doc_embs = get_text_embedding(
-    history_turns,
-    model_name="Qwen/Qwen3-Embedding-0.6B",
-)
-
-scores = np.matmul(query_emb, doc_embs.T)[0]
-ranked_indices = np.argsort(-scores).tolist()
-```
+`EvoEmbeddingClient` loads `ClareNie/EvoEmbedding-4B` by default. Given a query and a list of candidate history turns, EvoEmbedding reranks the candidates by retrieval relevance.
 
 #### EvoEmbedding Reranker
 
 ```python
 from model.client import EvoEmbeddingClient
 
-messages = [
-    {"role": "user", "content": "I visited Paris in April."},
-    {"role": "assistant", "content": "Noted."},
-    {"role": "user", "content": "I also bought a new laptop yesterday."},
-    {"role": "assistant", "content": "Got it."},
-    {"role": "user", "content": "Where did I travel in spring?"},
-]
+client = EvoEmbeddingClient()
 
-client = EvoEmbeddingClient(
-    model_path="ClareNie/EvoEmbedding-4B",
-    tokenizer_name="Qwen/Qwen3-4B-Instruct-2507",
-)
+candidate_turns = [
+    {
+        "user": "I visited Paris in April.",
+        "assistant": "Noted.",
+    },
+    {
+        "user": "I bought a new laptop yesterday.",
+        "assistant": "Got it.",
+    },
+    {
+        "user": "The meeting was moved to Friday.",
+        "assistant": "I will remember that.",
+    },
+]
+query = "Where did I travel in spring?"
+
+messages = []
+for turn in candidate_turns:
+    messages.extend(
+        [
+            {"role": "user", "content": turn["user"]},
+            {"role": "assistant", "content": turn["assistant"]},
+        ]
+    )
+messages.append({"role": "user", "content": query})
 
 ranked_turn_indices = client.send_message_retrieve(
     messages,
-    rag_sentence_num=2,
-    _sorted=False,
+    rag_sentence_num=len(candidate_turns),
+    _sorted=False,  # keep relevance order instead of sorting by chronology
 )
+
+ranked_turns = [candidate_turns[idx] for idx in ranked_turn_indices]
 ```
 
-The embedding example returns vectors for downstream scoring. `send_message_retrieve` returns ranked history indices directly. Index `0` refers to the first user-assistant history turn in `messages[:-1]`.
+`send_message_retrieve` returns candidate indices ordered by relevance. In this example, the Paris turn should be ranked before unrelated laptop or meeting turns.
+
+For other released model sizes, pass `model_path` and the matching `tokenizer_name` explicitly when constructing `EvoEmbeddingClient`.
+
+### Training on Custom Datasets
+
+Our JSON schema makes it **straightforward to adapt EvoEmbedding to your custom data**, whether it's document QA, customer support logs, or specialized RAG databases.
+
+To construct your own training data, simply follow these 3 steps:
+1. **Chunk your context:** Map your document chunks, paragraphs, or chat turns sequentially into the `meta.turns` list.
+2. **Label the evidence:** Identify which chunk(s) contain the answer and put their index into `meta.evidence_turns`.
+3. **Set the objective:** Place the final query at the end of `meta.turns`, and ensure the `messages` array reflects the full context sequence ending with the assistant's correct response.
+
+This design bypasses the need for complex vector-database setups during training. Our SFT pipeline natively consumes this format, allowing you to easily fine-tune the model to track dynamic states and retrieve accurately in your proprietary domain.
+
+## Conclusions
+
+### 1. State-of-the-Art Retrieval Performance
+EvoEmbedding achieves superior results across 10 benchmarks, outperforming established static and larger-scale specialist models (such as Qwen3-Embedding-8B and KaLM-Embedding-Gemma3-12B) with smaller parameter sizes.
+
+<p align="center">
+  <img src="docs/assets/Comparison.png" alt="EvoEmbedding performance" width="95%" />
+</p>
+<p align="center">
+  <img src="docs/assets/rag.png" alt="naiverag" width="95%" />
+</p>
+
+### 2. Naive RAG Powered by EvoEmbedding Surpasses Dedicated Agentic Memory
+A standard naive RAG pipeline using EvoEmbedding-4B outperforms complex, dedicated agentic memory architectures (such as Mem0 and MemoryOS) while requiring no explicit memory construction token overhead at test time.
+
+<p align="center">
+  <img src="docs/assets/longmemeval.png" alt="EvoEmbedding performance vs token cost on LongMemEval" width="85%" />
+</p>
+
+### 3. Plug-and-Play Compatibility with Agentic Workflows
+EvoEmbedding is highly compatible as a drop-in replacement. Integrating it into existing baseline frameworks (like A-MEM and LightMem) yields substantial performance gains (+19.2% and +13.5% respectively) without modifying the core generative LLMs.
+
+<p align="center">
+  <img src="docs/assets/agent.png" alt="Improvements" width="95%" />
+</p>
+
+### 4. Temporal retrieval capabilities.
+Unlike static embeddings that suffer from representation entanglement in long histories, EvoEmbedding's latent space is highly sensitive to chronological order. It successfully decouples temporal intents, excelling at queries constrained by temporal keywords (such as "firstly" and "lastly").
+
+<p align="center">
+  <img src="docs/assets/vis.png" alt="Temporal Sensitivity Analysis" width="95%" />
+</p>
+
+## Quick Start
+
+### Environment
+
+Use the matching environment and dependency file for the model family you want to run.
+
+| Model size | Conda env | Requirements |
+| --- | --- | --- |
+| EvoEmbedding-0.8B / EvoEmbedding-2B | `evoemb` | `requirements-evoembedding-lite.txt` |
+| EvoEmbedding-4B | `evoemb` | `requirements-evoembedding-4b.txt` |
+
+```bash
+conda activate evoemb
+pip install -r requirements-evoembedding-lite.txt
+```
+
+For the 4B model family:
+
+```bash
+conda activate evoemb
+pip install -r requirements-evoembedding-4b.txt
+```
+
+Recommended runtime:
+
+- Python 3.10+
+- PyTorch with CUDA support
+- BF16-capable GPU
+
+### Usage
+
+`EvoEmbeddingClient` loads `ClareNie/EvoEmbedding-4B` by default. Given a query and a list of candidate history turns, EvoEmbedding reranks the candidates by retrieval relevance.
+
+#### EvoEmbedding Reranker
+
+```python
+from model.client import EvoEmbeddingClient
+
+client = EvoEmbeddingClient()
+
+candidate_turns = [
+    {
+        "user": "I visited Paris in April.",
+        "assistant": "Noted.",
+    },
+    {
+        "user": "I bought a new laptop yesterday.",
+        "assistant": "Got it.",
+    },
+    {
+        "user": "The meeting was moved to Friday.",
+        "assistant": "I will remember that.",
+    },
+]
+query = "Where did I travel in spring?"
+
+messages = []
+for turn in candidate_turns:
+    messages.extend(
+        [
+            {"role": "user", "content": turn["user"]},
+            {"role": "assistant", "content": turn["assistant"]},
+        ]
+    )
+messages.append({"role": "user", "content": query})
+
+ranked_turn_indices = client.send_message_retrieve(
+    messages,
+    rag_sentence_num=len(candidate_turns),
+    _sorted=False,  # keep relevance order instead of sorting by chronology
+)
+
+ranked_turns = [candidate_turns[idx] for idx in ranked_turn_indices]
+```
+
+`send_message_retrieve` returns candidate indices ordered by relevance. In this example, the Paris turn should be ranked before unrelated laptop or meeting turns.
+
+For other released model sizes, pass `model_path` and the matching `tokenizer_name` explicitly when constructing `EvoEmbeddingClient`.
 
 ### Training
 
