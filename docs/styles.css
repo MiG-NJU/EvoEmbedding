@@ -297,7 +297,7 @@ img {
 
 .section-heading {
     max-width: 820px;
-    margin: 32px;
+    margin: 0 auto 34px;
     text-align: center;
 }
 
