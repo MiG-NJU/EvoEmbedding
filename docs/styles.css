@@ -512,48 +512,99 @@ img {
     padding: 24px;
 }
 
+#conclusions {
+    background-color: #fcfcfc; /* 极淡的灰背景，与纯白部分形成对比 */
+    padding: 90px 0;
+}
+
 .conclusion-list {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 18px;
+    /* 在宽屏上自动分为 2 列，窄屏自动单列 */
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
 }
 
 .conclusion-item {
-    display: grid;
-    grid-template-columns: auto minmax(0, 1fr);
-    gap: 18px;
-    min-height: 190px;
-    padding: 26px;
-    background: var(--paper);
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow-soft);
+    background-color: #ffffff;
+    border: 1px solid #eaeaea;
+    border-radius: 16px; /* 圆角卡片 */
+    padding: 35px 30px;
+    display: flex;
+    align-items: flex-start;
+    gap: 25px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), 
+                box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1), 
+                border-color 0.25s ease;
 }
 
+
+.conclusion-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px rgba(26, 115, 232, 0.08);
+    border-color: #1a73e8;
+}
+
+/* 炫酷的侧边数字加速线设计 */
 .conclusion-number {
-    width: 46px;
-    height: 46px;
-    display: grid;
-    place-items: center;
-    color: #fff;
-    background: var(--blue);
-    border-radius: var(--radius);
-    font-size: 0.94rem;
+    font-size: 2.2rem;
     font-weight: 800;
+    line-height: 1;
+    /* 蓝到深蓝的科技渐变色 */
+    background: linear-gradient(135deg, #1a73e8, #0a4fa8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    border-right: 2px solid #eaeaea; /* 与文字之间的分割线 */
+    padding-right: 20px;
+    min-width: 65px;
+    display: block;
+    font-family: 'Manrope', sans-serif;
 }
 
-.conclusion-item h3 {
-    margin-bottom: 10px;
-    color: var(--ink);
-    font-size: 1.2rem;
-    font-weight: 800;
-    line-height: 1.35;
+
+.conclusion-item:hover .conclusion-number {
+    border-right-color: #1a73e8;
 }
 
-.conclusion-item p {
-    color: var(--muted);
-    font-size: 1rem;
-    line-height: 1.7;
+.conclusion-content {
+    flex: 1;
+}
+
+.conclusion-content h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 12px;
+    line-height: 1.4;
+}
+
+.conclusion-content p {
+    font-size: 0.98rem;
+    color: #5f6368;
+    line-height: 1.6;
+    text-align: justify;
+}
+
+@media (max-width: 768px) {
+    .conclusion-list {
+        grid-template-columns: 1fr; /* 手机端变为 1 列 */
+        gap: 20px;
+    }
+
+    .conclusion-item {
+        flex-direction: column; /* 手机端数字在内容上方 */
+        gap: 15px;
+        padding: 30px 20px;
+    }
+
+    .conclusion-number {
+        border-right: none;
+        border-bottom: 2px solid #eaeaea; /* 分割线由垂直变为水平 */
+        padding-right: 0;
+        padding-bottom: 8px;
+        width: 100%;
+    }
 }
 
 .bibtex-container {
