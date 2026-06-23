@@ -95,6 +95,18 @@ Here is a representative structural example (intermediate context omitted for br
         ]
     }
 }
+```
+
+### Training on Custom Datasets
+
+Our JSON schema makes it **extremely straightforward to adapt EvoEmbedding to your custom data**, whether it's document QA, customer support logs, or specialized RAG databases.
+
+To construct your own training data, simply follow these 3 steps:
+1. **Chunk your context:** Map your document chunks, paragraphs, or chat turns sequentially into the `meta.turns` list.
+2. **Label the evidence:** Identify which chunk(s) contain the answer and put their index into `meta.evidence_turns`.
+3. **Set the objective:** Place the final query at the end of `meta.turns`, and ensure the `messages` array reflects the full context sequence ending with the assistant's correct response.
+
+This design bypasses the need for complex vector-database setups during training. Our SFT pipeline natively consumes this format, allowing you to easily fine-tune the model to track dynamic states and retrieve accurately in your proprietary domain.
 
 ## Conclusions
 
