@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" role="img" aria-label="Evo">
+  <rect x="8" y="8" width="112" height="112" rx="28" fill="#ffffff"/>
+  <rect x="8" y="8" width="112" height="112" rx="28" fill="none" stroke="#dfe5ee" stroke-width="3"/>
+  <text x="64" y="77" text-anchor="middle" font-family="Manrope, Arial, sans-serif" font-size="46" font-weight="800" letter-spacing="-1">
+    <tspan fill="#1a73e8">E</tspan><tspan fill="#fbbc04">v</tspan><tspan fill="#34a853">o</tspan>
+  </text>
+</svg>
