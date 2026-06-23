@@ -10,7 +10,7 @@
 <a href="https://arxiv.org/abs/0000.00000">
   <img src="https://img.shields.io/badge/%F0%9F%93%84%20arXiv%20Paper-b31b1b?style=for-the-badge" alt="arXiv Paper" />
 </a>
-<a href="https://huggingface.co/ClareNie/EvoEmbedding-4B">
+<a href="https://huggingface.co/MiG-NJU/EvoEmbedding-4B">
   <img src="https://img.shields.io/badge/%F0%9F%A4%97%20HF%20Model-c9a400?style=for-the-badge" alt="HF Model" />
 </a>
 <a href="https://huggingface.co/datasets/MiG-NJU/EvoEmbedding-Dataset">

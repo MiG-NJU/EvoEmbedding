@@ -14,7 +14,7 @@ from transformers import AutoModelForCausalLM, AutoProcessor, AutoTokenizer
 from model.evo_embedding import EvoRAGConfig, EvoRAGModel
 
 
-DEFAULT_EVOEMBEDDING_MODEL = "ClareNie/EvoEmbedding-4B"
+DEFAULT_EVOEMBEDDING_MODEL = "MiG-NJU/EvoEmbedding-4B"
 DEFAULT_BASE_MODEL = "Qwen/Qwen3-4B-Instruct-2507"
 
 
