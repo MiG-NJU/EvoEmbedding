@@ -4,13 +4,15 @@
 
 <div align="center">
 
-# EvoEmbedding
-
-**Evolvable Embedding for Long-Context Retrieval**
-
-[Project](https://github.com/Clare-Nie/EvoEmbedding) ·
-[Dataset](https://huggingface.co/datasets/ClareNie/EvoEmbedding-Dataset) ·
-[Models](https://huggingface.co/ClareNie/EvoEmbedding-4B)
+<a href="https://github.com/Clare-Nie/EvoEmbedding">
+  <img src="https://img.shields.io/badge/%F0%9F%8F%A0%20Project%20Page-2f74c0?style=for-the-badge" alt="Project Page" />
+</a>
+<a href="https://huggingface.co/ClareNie/EvoEmbedding-4B">
+  <img src="https://img.shields.io/badge/%F0%9F%A4%97%20HF%20Model-c9a400?style=for-the-badge" alt="HF Model" />
+</a>
+<a href="https://huggingface.co/datasets/ClareNie/EvoEmbedding-Dataset">
+  <img src="https://img.shields.io/badge/%F0%9F%93%9A%20Training%20Data-dc7a2a?style=for-the-badge" alt="Training Data" />
+</a>
 
 </div>
 
@@ -22,20 +24,11 @@ This repository provides the released code for model definition, training, infer
 
 ## Contents
 
-- [Resources](#resources)
 - [Overview](#overview)
 - [Performance](#performance)
 - [Quick Start](#quick-start)
 - [Repository Structure](#repository-structure)
 - [Citation](#citation)
-
-## Resources
-
-| Resource | Link |
-| --- | --- |
-| Project repository | https://github.com/Clare-Nie/EvoEmbedding |
-| Training dataset | https://huggingface.co/datasets/ClareNie/EvoEmbedding-Dataset |
-| Released model | https://huggingface.co/ClareNie/EvoEmbedding-4B |
 
 ## Overview
 
@@ -73,6 +66,7 @@ EvoEmbedding is evaluated on long-context retrieval and memory-oriented benchmar
 ### Environment
 
 ```bash
+conda activate qwenomni35
 pip install -r requirements.txt
 ```
 
@@ -84,30 +78,46 @@ Recommended runtime:
 
 ### Usage
 
-`model/client.py` provides `EvoEmbeddingClient` and `EvoRAGClient`. By default, the client loads the released EvoEmbedding checkpoint:
+`model/client.py` exposes `EvoEmbeddingClient` for retrieval-aware inference.
 
 ```python
 from model.client import EvoEmbeddingClient
 
-client = EvoEmbeddingClient(model_path="ClareNie/EvoEmbedding-4B")
-
 messages = [
     {"role": "user", "content": "I visited Paris in April."},
     {"role": "assistant", "content": "Noted."},
+    {"role": "user", "content": "I also bought a new laptop yesterday."},
+    {"role": "assistant", "content": "Got it."},
     {"role": "user", "content": "Where did I travel in spring?"},
 ]
 
-answer = client.send_message_raw(messages)
+client = EvoEmbeddingClient(
+    model_path="ClareNie/EvoEmbedding-4B",
+    tokenizer_name="Qwen/Qwen3-4B-Instruct-2507",
+)
+
+ranked_turn_indices = client.send_message_retrieve(
+    messages,
+    rag_sentence_num=2,
+    _sorted=False,
+)
 ```
+
+`send_message_retrieve` returns ranked history indices directly. Index `0` refers to the first user-assistant history turn in `messages[:-1]`.
 
 ### Training
 
+Train the model size with its matching base model and conda environment:
+
 ```bash
+conda activate qwenomni35
 PYTHONPATH=. torchrun --nproc_per_node=8 train/train.py \
   --dataset_name ClareNie/EvoEmbedding-Dataset \
   --base_model Qwen/Qwen3-4B-Instruct-2507 \
   --output_dir ./output/evoembedding-4b
 ```
+
+For the 0.8B and 2B variants, switch to `conda activate qwenomni` and replace `--base_model` and `--output_dir` with the corresponding model paths.
 
 ### Evaluation
 
@@ -163,4 +173,3 @@ EvoEmbedding/
   year={2026}
 }
 ```
-
