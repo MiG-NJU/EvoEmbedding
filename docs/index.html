@@ -3,121 +3,201 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EvoEmbedding: Evolvable Embedding for Long-Context Retrieval</title>
-    <!-- 引入外部字体和图标 -->
-    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <meta name="description" content="EvoEmbedding: Evolvable Embedding for Long-Context Retrieval">
+    <title>EvoEmbedding | Evolvable Embedding for Long-Context Retrieval</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
 </head>
 <body>
-    <div class="container">
-        <!-- 头部信息 -->
-        <header class="header">
-            <h1 class="title">EvoEmbedding: Evolvable Embedding<br>for Long-Context Retrieval</h1>
-            
-            <div class="authors">
-                <span class="author">Chang Nie</span>, 
-                <span class="author">Chaoyou Fu</span><span class="corresp-icon"><i class="fas fa-envelope"></i></span>, 
-                <span class="author">Caifeng Shan</span>
+    <nav class="navbar" aria-label="Main navigation">
+        <div class="nav-container">
+            <a href="#" class="nav-logo" aria-label="EvoEmbedding home">
+                <span class="brand-word">
+                    <span class="brand-evo">Evo</span><span class="brand-embedding">Embedding</span>
+                </span>
+            </a>
+            <div class="nav-links">
+                <a href="https://github.com/clare-nie/EvoEmbedding" target="_blank" class="nav-link nav-link--icon" rel="noreferrer">
+                    <i class="fab fa-github"></i>
+                    <span>GitHub</span>
+                </a>
+                <a href="#" class="nav-link nav-link--icon">
+                    <i class="fas fa-face-smile"></i>
+                    <span>Hugging Face</span>
+                </a>
             </div>
-            
-            <div class="affiliation">
-                <span>Nanjing University</span>
-            </div>
-            <div class="corresp-note">
-                <i class="fas fa-envelope"></i> Corresponding author
-            </div>
+        </div>
+    </nav>
 
-            <!-- 链接按钮 -->
-            <div class="links">
-                <a href="#" class="button"><i class="fas fa-file-pdf"></i> Paper</a>
-                <a href="https://github.com/clare-nie/EvoEmbedding" target="_blank" class="button"><i class="fab fa-github"></i> Code</a>
-                <a href="#" class="button"><i class="fas fa-database"></i> EvoTrain-180K</a>
-                <a href="#" class="button"><i class="fas fa-cube"></i> Models</a>
+    <header class="hero">
+            <div id="particles-js" aria-hidden="true"></div>
+        <div class="hero-content">
+            <p class="eyebrow">Long-Context Retrieval / Evolvable Representation</p>
+            <h1 class="hero-title"><span class="hero-evo">Evo</span><span class="hero-embedding">Embedding</span></h1>
+            <p class="hero-subtitle">Evolvable Embedding for Long-Context Retrieval</p>
+
+            <div class="authors" aria-label="Authors">
+                <span>Chang Nie</span>
+                <span>Chaoyou Fu<sup><i class="fas fa-envelope"></i></sup></span>
+                <span>Caifeng Shan</span>
             </div>
-        </header>
+            <p class="affiliation">Nanjing University</p>
+            <p class="corresp-note"><i class="fas fa-envelope"></i> Corresponding author</p>
 
-        <!-- 摘要部分 -->
-        <section class="section">
-            <h2 class="section-title">Abstract</h2>
-            <p class="abstract-text">
-                This paper introduces <strong>EvoEmbedding</strong>, a novel embedding model that generates <em>evolvable</em> representations for retrieval. It is tailored for long-context scenarios, where information is temporally dynamic, entangled, and requires continuous state tracking. Our design is simple: EvoEmbedding maintains a continuously updated latent memory as it sequentially processes inputs, and uses it alongside the raw content to jointly generate evolvable embeddings. Given the same instruction, the resulting representation matches distinct content depending on the current context, going beyond static semantic search. To support this, we construct <strong>EvoTrain-180K</strong>, a diverse dataset for the joint optimization of latent memory and retrieval.
-            </p>
-            <p class="abstract-text">
-                Extensive experiments show that our model not only outperforms larger-scale specialists (e.g., Qwen3-Embedding-8B and KaLM-Embedding-Gemma3-12B) across a range of long-context retrieval benchmarks, but also generalizes well to downstream tasks (e.g., personalization) with contexts 10× longer than its training window. Notably, EvoEmbedding seamlessly integrates into agentic workflows to boost performance. For instance, a naive RAG pipeline equipped with our model surpasses dedicated agentic memory systems.
-            </p>
-        </section>
+            <div class="hero-buttons">
+                <a href="#" class="btn btn-primary"><i class="fas fa-file-pdf"></i> Paper</a>
+                <a href="https://github.com/clare-nie/EvoEmbedding" target="_blank" class="btn btn-secondary" rel="noreferrer"><i class="fab fa-github"></i> Code</a>
+                <a href="#" class="btn btn-secondary"><i class="fas fa-database"></i> EvoTrain-180K</a>
+                <a href="#" class="btn btn-secondary"><i class="fas fa-cube"></i> Models</a>
+            </div>
+        </div>
+    </header>
 
-        <!-- 雷达图展示 -->
-        <section class="section">
-            <h2 class="section-title">Superior Performance across Retrieval & Generation</h2>
-            <div class="figure">
-                <img src="assets/Comparsion.png" alt="Performance Radar Chart">
-                <p class="caption">
-                    <strong>Figure 1:</strong> Performance comparison across long-context retrieval and generation tasks. The EvoEmbedding family achieves superior results across 10 benchmarks. Notably, our model excels in handling dynamic contexts (e.g., long-term personalization), outperforming both established static and large-scale models.
+    <main>
+        <section id="abstract" class="section section--white">
+            <div class="container narrow">
+                <h2 class="section-title">Abstract</h2>
+                <p class="lead">
+                    EvoEmbedding generates evolvable representations for retrieval in long-context scenarios, where information is temporally dynamic, entangled, and requires continuous state tracking.
+                </p>
+                <p>
+                    The model maintains a continuously updated latent memory while sequentially processing inputs, then uses that memory alongside the raw content to generate context-aware embeddings. Given the same instruction, the resulting representation can match distinct content depending on the current context, going beyond static semantic search. To support this, we construct <strong>EvoTrain-180K</strong>, a diverse dataset for jointly optimizing latent memory and retrieval.
+                </p>
+                <p>
+                    Extensive experiments show that EvoEmbedding outperforms larger-scale specialists such as Qwen3-Embedding-8B and KaLM-Embedding-Gemma3-12B across long-context retrieval benchmarks, while generalizing to downstream tasks such as personalization with contexts 10x longer than its training window.
                 </p>
             </div>
         </section>
 
-        <!-- 方法架构图 -->
-        <section class="section">
-            <h2 class="section-title">Methodology</h2>
-            <p class="text">
-                Unlike standard static embeddings, EvoEmbedding jointly performs memory evolution and representation generation in parallel. We introduce a latent memory queue to track continuous state updates without massive overhead.
-            </p>
-            <div class="figure">
-                <img src="assets/framework.png" alt="EvoEmbedding Architecture">
-                <p class="caption">
-                    <strong>Figure 3: Overview of EvoEmbedding.</strong> (Left) Memory Evolution: The LLM compresses the segment and integrates the previous memory to update a FIFO latent memory queue. (Right) Representation Generation: Historical latent memory is combined with the current segment to generate a contextually evolvable embedding for retrieval.
-                </p>
+        <section id="results" class="section section--white">
+            <div class="container">
+                <div class="section-heading">
+                    <h2 class="section-title">Superior Performance</h2>
+                    <p class="section-subtitle">EvoEmbedding delivers strong retrieval and generation results across dynamic long-context benchmarks.</p>
+                </div>
+                <figure class="figure figure--large">
+                    <img src="assets/Comparsion.png" alt="Performance comparison radar chart">
+                    <figcaption>
+                        <strong>Figure 1.</strong> Performance comparison across long-context retrieval and generation tasks. EvoEmbedding achieves superior results across 10 benchmarks and is especially strong in dynamic contexts such as long-term personalization.
+                    </figcaption>
+                </figure>
             </div>
         </section>
 
-        <!-- 主表和 Agentic 记忆对比 -->
-        <section class="section">
-            <h2 class="section-title">Surpassing Agentic Memory Systems</h2>
-            <p class="text">
-                Remarkably, a standard naive RAG pipeline powered by EvoEmbedding-4B, utilizing only the retrieved Top-8 segments, consistently surpasses complex agentic memory architectures (e.g., Mem0, LightMem, A-MEM).
-            </p>
-            <div class="figure shadow-box">
-                <img src="assets/performance.png" alt="Table 2 and Table 3 Results">
-                <p class="caption">
-                    <strong>Tables 2 & 3:</strong> Evaluation results on LoCoMo and LongMemEval. A naive RAG pipeline with EvoEmbedding achieves the highest overall accuracy, surpassing both agentic memory systems and other embedding baselines, while incurring zero explicit memory construction token cost at test time.
-                </p>
+        <section id="method" class="section">
+            <div class="container">
+                <div class="split-heading">
+                    <div>
+                        <h2 class="section-title">Methodology</h2>
+                        <p class="section-subtitle">EvoEmbedding jointly performs memory evolution and representation generation in parallel.</p>
+                    </div>
+                    <div class="method-points">
+                        <span><i class="fas fa-brain"></i> Latent memory queue</span>
+                        <span><i class="fas fa-arrows-rotate"></i> Sequential updates</span>
+                        <span><i class="fas fa-magnifying-glass-chart"></i> Contextual retrieval</span>
+                    </div>
+                </div>
+                <figure class="figure">
+                    <img src="assets/framework.png" alt="EvoEmbedding architecture overview">
+                    <figcaption>
+                        <strong>Figure 3.</strong> Memory evolution compresses each segment and integrates previous memory into a FIFO latent queue. Representation generation combines that historical latent memory with the current segment to produce contextually evolvable embeddings.
+                    </figcaption>
+                </figure>
             </div>
         </section>
 
-        <!-- 时序敏感性分析图 -->
-        <section class="section">
-            <h2 class="section-title">Temporal Query Sensitivity</h2>
-            <p class="text">
-                EvoEmbedding inherently understands temporal order. Baseline representations remain fully entangled, but EvoEmbedding's latent space cleanly separates representations into distinct, non-overlapping clusters corresponding to their chronological positions.
-            </p>
-            <div class="figure">
-                <img src="assets/vis.png" alt="Analysis of Temporal Query Sensitivity">
-                <p class="caption">
-                    <strong>Figure 6: Analysis of Temporal Query Sensitivity.</strong> (Top Row): Average similarity curves. EvoEmbedding successfully decouples temporal intents (e.g., "firstly" peaks at initial segments, "lastly" exhibits chronological increase). (Bottom Row): t-SNE visualization confirms that EvoEmbedding’s latent space is highly sensitive to temporal semantics.
-                </p>
+        <section class="section section--white">
+            <div class="container">
+                <div class="section-heading">
+                    <h2 class="section-title">Surpassing Agentic Memory Systems</h2>
+                    <p class="section-subtitle">A naive RAG pipeline powered by EvoEmbedding-4B can outperform complex agentic memory architectures.</p>
+                </div>
+                <figure class="figure figure--table">
+                    <img src="assets/performance.png" alt="Evaluation results on LoCoMo and LongMemEval">
+                    <figcaption>
+                        <strong>Tables 2 &amp; 3.</strong> Evaluation results on LoCoMo and LongMemEval. EvoEmbedding achieves the highest overall accuracy while using only retrieved Top-8 segments and zero explicit memory construction token cost at test time.
+                    </figcaption>
+                </figure>
             </div>
         </section>
 
-        <!-- 引用部分 -->
         <section class="section">
-            <h2 class="section-title">Citation</h2>
-            <div class="bibtex-container">
+            <div class="container">
+                <div class="section-heading">
+                    <h2 class="section-title">Temporal Query Sensitivity</h2>
+                    <p class="section-subtitle">The latent space separates chronological intent instead of collapsing temporally distinct memories.</p>
+                </div>
+                <figure class="figure">
+                    <img src="assets/vis.png" alt="Temporal query sensitivity analysis">
+                    <figcaption>
+                        <strong>Figure 6.</strong> Similarity curves and t-SNE visualizations show that EvoEmbedding decouples temporal intents such as "firstly" and "lastly", while baseline representations remain entangled.
+                    </figcaption>
+                </figure>
+            </div>
+        </section>
+
+        <section id="citation" class="section section--white">
+            <div class="container narrow">
+                <h2 class="section-title">Citation</h2>
+                <div class="bibtex-container">
 <pre><code>@article{nie2026evoembedding,
   title={Evolvable Embedding for Long-Context Retrieval},
   author={Nie, Chang and Fu, Chaoyou and Shan, Caifeng},
   journal={arXiv preprint},
   year={2026}
 }</code></pre>
+                </div>
             </div>
         </section>
+    </main>
 
-        <!-- 页脚 -->
-        <footer class="footer">
-            <p>Maintained by the EvoEmbedding Authors. Template adapted from <a href="https://github.com/nerfies/nerfies.github.io" target="_blank">Nerfies</a>.</p>
-        </footer>
-    </div>
+    <footer class="footer">
+        <div class="container footer-content">
+            <div>
+                <h3>EvoEmbedding</h3>
+                <p>Evolvable representations for dynamic long-context retrieval.</p>
+            </div>
+            <div class="footer-links">
+                <a href="https://github.com/clare-nie/EvoEmbedding" target="_blank" aria-label="GitHub" rel="noreferrer">
+                    <i class="fab fa-github"></i>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+            anchor.addEventListener("click", (event) => {
+                const target = document.querySelector(anchor.getAttribute("href"));
+                if (!target) return;
+                event.preventDefault();
+                target.scrollIntoView({ behavior: "smooth", block: "start" });
+            });
+        });
+
+        if (window.particlesJS) {
+            particlesJS("particles-js", {
+                particles: {
+                    number: { value: 56, density: { enable: true, value_area: 900 } },
+                    color: { value: ["#1a73e8", "#34a853", "#fbbc04", "#ea4335"] },
+                    shape: { type: "circle" },
+                    opacity: { value: 0.24, random: true },
+                    size: { value: 3, random: true },
+                    line_linked: { enable: true, distance: 150, color: "#5f6368", opacity: 0.12, width: 1 },
+                    move: { enable: true, speed: 1.1, direction: "none", random: false, straight: false, out_mode: "out" }
+                },
+                interactivity: {
+                    detect_on: "canvas",
+                    events: { onhover: { enable: true, mode: "grab" }, onclick: { enable: false }, resize: true },
+                    modes: { grab: { distance: 150, line_linked: { opacity: 0.22 } } }
+                },
+                retina_detect: true
+            });
+        }
+    </script>
 </body>
 </html>
