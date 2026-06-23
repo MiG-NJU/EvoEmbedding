@@ -29,7 +29,7 @@ Instead of encoding text segments into isolated static vectors, EvoEmbedding seq
 
 - [Framework](#framework)
 - [Dataset](#dataset)
-- [Key Conclusions](#key-conclusions)
+- [Conclusions](#conclusions)
 - [Quick Start](#quick-start)
 - [Repository Structure](#repository-structure)
 - [Citation](#citation)
@@ -47,15 +47,54 @@ EvoEmbedding coordinates two coupled, parallel operations to process incoming lo
 
 ## Dataset
 
-The released training data uses a chat-style fine-tuning format. Each sample contains:
+The released **EvoTrain-180K** dataset uses an intuitive, chat-style fine-tuning format designed for joint SFT (Supervised Fine-Tuning) and retrieval optimization. 
 
-- `messages`: alternating user/assistant turns in chat format.
-- `meta.evidence_turns`: indices of the historical turns used as supervised evidence.
-- `meta.turns`: tokenized turn spans consumed by the retriever path.
+### Data Structure
 
-The final user turn acts as the query, while earlier turns provide the memory context. The same sample drives both next-token supervision and retrieval ranking.
+Each training instance is a self-contained context window structured with the following key components:
 
-## Key Conclusions
+- `messages`: Standard alternating user/assistant turns representing the SFT generation target.
+- `meta.turns`: Formatted turn-level strings (concatenating User and Assistant messages) processed sequentially by the retriever path to simulate dynamic context streaming.
+- `meta.evidence_turns`: Zero-based indices pointing to the specific historical turn(s) containing the ground-truth evidence (serving as positive targets $v^+$ for contrastive loss).
+
+Here is a representative structural example (intermediate context omitted for brevity):
+
+```json
+{
+    "messages": [
+        {
+            "role": "user",
+            "content": "[Target Evidence] I’m a retired cop... Any good local diners? No seafood, please."
+        },
+        {
+            "role": "assistant",
+            "content": "Try Mama’s Diner on Main St. No seafood on the menu."
+        },
+        
+        ... (Multiple irrelevant dialogue turns / long context chunks omitted) ...
+        
+        {
+            "role": "user",
+            "content": "[Query] What type of restaurant did I say not to recommend earlier?"
+        },
+        {
+            "role": "assistant",
+            "content": "[Ground-truth Answer] Seafood."
+        }
+    ],
+    "meta": {
+        "evidence_turns": [
+            0
+        ],
+        "turns": [
+            "User: [Target Evidence] I’m a retired cop... Any good local diners? No seafood, please.\nAssistant: Try Mama’s Diner on Main St. No seafood on the menu.",
+            "... (Multiple irrelevant dialogue turns / long context chunks omitted) ...",
+            "[Query] What type of restaurant did I say not to recommend earlier?"
+        ]
+    }
+}
+
+## Conclusions
 
 Our evaluations on long-context retrieval and memory-oriented benchmarks yield four key conclusions:
 
@@ -87,18 +126,18 @@ Use the matching environment and dependency file for the model family you want t
 
 | Model size | Conda env | Requirements |
 | --- | --- | --- |
-| EvoEmbedding-0.8B / EvoEmbedding-2B | `qwenomni35` | `requirements-evoembedding-lite.txt` |
-| EvoEmbedding-4B | `qwenomni` | `requirements-evoembedding-4b.txt` |
+| EvoEmbedding-0.8B / EvoEmbedding-2B | `evoemb` | `requirements-evoembedding-lite.txt` |
+| EvoEmbedding-4B | `evoemb` | `requirements-evoembedding-4b.txt` |
 
 ```bash
-conda activate qwenomni35
+conda activate evoemb
 pip install -r requirements-evoembedding-lite.txt
 ```
 
 For the 4B model family:
 
 ```bash
-conda activate qwenomni
+conda activate evoemb
 pip install -r requirements-evoembedding-4b.txt
 ```
 
@@ -172,7 +211,7 @@ The embedding example returns vectors for downstream scoring. `send_message_retr
 Train the model size with its matching base model and dependency file:
 
 ```bash
-conda activate qwenomni
+conda activate evoemb
 pip install -r requirements-evoembedding-4b.txt
 PYTHONPATH=. torchrun --nproc_per_node=8 train/train.py \
   --dataset_name ClareNie/EvoEmbedding-Dataset \
@@ -180,7 +219,7 @@ PYTHONPATH=. torchrun --nproc_per_node=8 train/train.py \
   --output_dir ./output/evoembedding-4b
 ```
 
-For the 0.8B and 2B variants, use `qwenomni35` with `requirements-evoembedding-lite.txt` and replace `--base_model` and `--output_dir` with the corresponding model paths.
+For the 0.8B and 2B variants, use `evoemb` with `requirements-evoembedding-lite.txt` and replace `--base_model` and `--output_dir` with the corresponding model paths.
 
 ### Evaluation
 
