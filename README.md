@@ -7,7 +7,7 @@
 <a href="https://clare-nie.github.io/EvoEmbedding/">
   <img src="https://img.shields.io/badge/%F0%9F%8F%A0%20Project%20Page-2f74c0?style=for-the-badge" alt="Project Page" />
 </a>
-<a href="https://arxiv.org/abs/0000.00000">
+<a href="https://arxiv.org/abs/2606.21649">
   <img src="https://img.shields.io/badge/%F0%9F%93%84%20arXiv%20Paper-b31b1b?style=for-the-badge" alt="arXiv Paper" />
 </a>
 <a href="https://huggingface.co/MiG-NJU/EvoEmbedding-4B">
