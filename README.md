@@ -21,56 +21,85 @@
 
 ---
 
-EvoEmbedding is a memory-aware framework for long-context retrieval. Instead of encoding each text segment as an isolated static vector, EvoEmbedding maintains an evolvable latent memory and generates query-sensitive representations for retrieving information from long, temporally structured histories.
+**EvoEmbedding = Native Memory + Latent RAG**
 
-This repository provides the released code for model definition, training, inference client, and evaluation scripts. The released resources include the training dataset and model checkpoints on Hugging Face.
+Instead of encoding text segments into isolated static vectors, EvoEmbedding sequentially processes the input stream, continuously updates a **Latent Memory Queue**, and jointly generates context-aware, **Evolvable Embeddings** for precise long-context retrieval. 
 
 ## Contents
 
-- [Overview](#overview)
-- [Performance](#performance)
+- [Framework](#framework)
+- [Dataset](#dataset)
+- [Key Conclusions](#key-conclusions)
 - [Quick Start](#quick-start)
 - [Repository Structure](#repository-structure)
 - [Citation](#citation)
 
-## Overview
+## Framework
 
-EvoEmbedding is designed for retrieval settings where the relevant evidence depends on conversation history, temporal position, or evolving user memory. The model performs two coupled operations:
+EvoEmbedding coordinates two coupled, parallel operations to process incoming long contexts:
 
-- **Memory evolution**: compresses historical segments into latent memory states and updates a FIFO memory queue.
-- **Representation generation**: combines latent memory with the current segment to produce contextual representations for retrieval.
+- **Memory Evolution**: Compresses historical segments into latent memory states and updates a FIFO memory queue.
+- **Representation Generation**: Combines the latent memory with the current segment to generate evolvable representations.
 
 <p align="center">
   <img src="docs/assets/framework.png" alt="EvoEmbedding overview" width="95%" />
 </p>
 
-Compared with static embedding models, EvoEmbedding can make retrieval decisions that are sensitive to temporal cues such as beginning, middle, and recent context.
+## Dataset
 
-## Performance
+The released training data uses a chat-style fine-tuning format. Each sample contains:
 
-EvoEmbedding is evaluated on long-context retrieval and memory-oriented benchmarks, including:
+- `messages`: alternating user/assistant turns in chat format.
+- `meta.evidence_turns`: indices of the historical turns used as supervised evidence.
+- `meta.turns`: tokenized turn spans consumed by the retriever path.
 
-- `locomo`
-- `longmemeval_s`
-- `personamem32`
-- `PersonaMME32`
-- `PersonaMME128`
+The final user turn acts as the query, while earlier turns provide the memory context. The same sample drives both next-token supervision and retrieval ranking.
 
-<p align="center">
-  <img src="docs/assets/Comparsion.png" alt="EvoEmbedding comparison" width="85%" />
-</p>
+## Key Conclusions
+
+Our evaluations on long-context retrieval and memory-oriented benchmarks yield four key conclusions:
+
+### 1. State-of-the-Art Retrieval Performance
+EvoEmbedding establishes superior performance across 10 benchmarks, consistently outperforming larger-scale specialist models (e.g., Qwen3-Embedding-8B and KaLM-Embedding-Gemma3-12B) with significantly smaller parameter sizes.
 
 <p align="center">
   <img src="docs/assets/performance.png" alt="EvoEmbedding performance" width="95%" />
 </p>
 
+### 2. Naive RAG powered by EvoEmbedding Surpasses Specialized Agentic Memory
+Equipped with EvoEmbedding-4B, a standard naive RAG pipeline utilizing only the retrieved Top-8 segments outperforms complex, dedicated agentic memory architectures (such as Mem0 and MemoryOS) while incurring **zero explicit memory construction token cost** at test time.
+
+<p align="center">
+  <img src="docs/assets/Comparsion.png" alt="EvoEmbedding comparison" width="85%" />
+</p>
+
+### 3. Plug-and-Play Enhancement for Existing Agentic Workflows
+EvoEmbedding is highly compatible as a drop-in upgrade. Integrating it into existing baseline frameworks (like A-MEM and LightMem) yields substantial performance gains (+19.2% and +13.5% respectively) without requiring any modifications to the core generation models.
+
+### 4. High Chronological and Temporal Sensitivity
+Unlike static embeddings that suffer from representation entanglement in long histories, EvoEmbedding's latent space is highly sensitive to chronological order. It successfully decouples temporal intents, naturally excelling at queries constrained by temporal keywords (e.g., "firstly", "lastly").
+
 ## Quick Start
 
 ### Environment
 
+Use the matching environment and dependency file for the model family you want to run.
+
+| Model size | Conda env | Requirements |
+| --- | --- | --- |
+| EvoEmbedding-0.8B / EvoEmbedding-2B | `qwenomni35` | `requirements-evoembedding-lite.txt` |
+| EvoEmbedding-4B | `qwenomni` | `requirements-evoembedding-4b.txt` |
+
 ```bash
 conda activate qwenomni35
-pip install -r requirements.txt
+pip install -r requirements-evoembedding-lite.txt
+```
+
+For the 4B model family:
+
+```bash
+conda activate qwenomni
+pip install -r requirements-evoembedding-4b.txt
 ```
 
 Recommended runtime:
@@ -81,7 +110,37 @@ Recommended runtime:
 
 ### Usage
 
-`model/client.py` exposes `EvoEmbeddingClient` for retrieval-aware inference.
+`model/client.py` exposes both the dense embedding helper and the EvoEmbedding reranker interface.
+
+#### Embedding Model
+
+```python
+import numpy as np
+
+from model.client import get_text_embedding
+
+history_turns = [
+    "I visited Paris in April.",
+    "I bought a new laptop yesterday.",
+    "The meeting was moved to Friday.",
+]
+query = "Where did I travel in spring?"
+
+query_emb = get_text_embedding(
+    query,
+    model_name="Qwen/Qwen3-Embedding-0.6B",
+    is_query=True,
+)
+doc_embs = get_text_embedding(
+    history_turns,
+    model_name="Qwen/Qwen3-Embedding-0.6B",
+)
+
+scores = np.matmul(query_emb, doc_embs.T)[0]
+ranked_indices = np.argsort(-scores).tolist()
+```
+
+#### EvoEmbedding Reranker
 
 ```python
 from model.client import EvoEmbeddingClient
@@ -106,21 +165,22 @@ ranked_turn_indices = client.send_message_retrieve(
 )
 ```
 
-`send_message_retrieve` returns ranked history indices directly. Index `0` refers to the first user-assistant history turn in `messages[:-1]`.
+The embedding example returns vectors for downstream scoring. `send_message_retrieve` returns ranked history indices directly. Index `0` refers to the first user-assistant history turn in `messages[:-1]`.
 
 ### Training
 
-Train the model size with its matching base model and conda environment:
+Train the model size with its matching base model and dependency file:
 
 ```bash
-conda activate qwenomni35
+conda activate qwenomni
+pip install -r requirements-evoembedding-4b.txt
 PYTHONPATH=. torchrun --nproc_per_node=8 train/train.py \
   --dataset_name ClareNie/EvoEmbedding-Dataset \
   --base_model Qwen/Qwen3-4B-Instruct-2507 \
   --output_dir ./output/evoembedding-4b
 ```
 
-For the 0.8B and 2B variants, switch to `conda activate qwenomni` and replace `--base_model` and `--output_dir` with the corresponding model paths.
+For the 0.8B and 2B variants, use `qwenomni35` with `requirements-evoembedding-lite.txt` and replace `--base_model` and `--output_dir` with the corresponding model paths.
 
 ### Evaluation
 
@@ -157,7 +217,8 @@ EvoEmbedding/
 ├── train/              # training entrypoint
 ├── eval/               # evaluation scripts
 ├── docs/               # project page and visual assets
-└── requirements.txt
+├── requirements-evoembedding-4b.txt
+└── requirements-evoembedding-lite.txt
 ```
 
 ## Notes
