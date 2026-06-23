@@ -250,7 +250,7 @@ PYTHONPATH=. bash eval/eval.sh
 ```bibtex
 @article{nie2026evoembedding,
   title={Evolvable Embedding for Long-Context Retrieval},
-  author={Nie, Chang and Fu, Chaoyou and Shan, Caifeng},
+  author={Nie, Chang and Fu, Chaoyou and Feng, Junlan and Shan, Caifeng},
   journal={arXiv preprint},
   year={2026}
 }
