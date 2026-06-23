@@ -513,97 +513,103 @@ img {
 }
 
 #conclusions {
-    background-color: #fcfcfc; /* 极淡的灰背景，与纯白部分形成对比 */
+    background-color: #fff;
     padding: 90px 0;
 }
 
-.conclusion-list {
-    display: grid;
-    /* 在宽屏上自动分为 2 列，窄屏自动单列 */
-    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-    gap: 30px;
-    margin-top: 40px;
+.conclusion-panel {
+    width: min(100%, 1120px);
+    margin: 0 auto;
+    padding: 42px 38px 38px;
+    background: #f4f6fb;
+    border: 1px solid #e8ecf4;
+    border-radius: 30px;
+    box-shadow: 0 24px 70px rgba(32, 33, 36, 0.08);
+}
+
+.conclusion-kicker {
+    margin: 0 0 24px;
+    color: #a0a7b7;
+    font-size: 0.86rem;
+    font-weight: 800;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
 }
 
 .conclusion-item {
-    background-color: #ffffff;
-    border: 1px solid #eaeaea;
-    border-radius: 16px; /* 圆角卡片 */
-    padding: 35px 30px;
-    display: flex;
-    align-items: flex-start;
-    gap: 25px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
-    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), 
-                box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1), 
-                border-color 0.25s ease;
+    min-height: 112px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 24px;
+    padding: 28px 34px;
+    background: #fff;
+    border: 1px solid #e8ebf1;
+    border-radius: 20px;
+    box-shadow: 0 14px 42px rgba(32, 33, 36, 0.045);
+    transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
 }
 
+.conclusion-item + .conclusion-item {
+    margin-top: 20px;
+}
 
 .conclusion-item:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 30px rgba(26, 115, 232, 0.08);
-    border-color: #1a73e8;
-}
-
-/* 炫酷的侧边数字加速线设计 */
-.conclusion-number {
-    font-size: 2.2rem;
-    font-weight: 800;
-    line-height: 1;
-    /* 蓝到深蓝的科技渐变色 */
-    background: linear-gradient(135deg, #1a73e8, #0a4fa8);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    border-right: 2px solid #eaeaea; /* 与文字之间的分割线 */
-    padding-right: 20px;
-    min-width: 65px;
-    display: block;
-    font-family: 'Manrope', sans-serif;
-}
-
-
-.conclusion-item:hover .conclusion-number {
-    border-right-color: #1a73e8;
-}
-
-.conclusion-content {
-    flex: 1;
+    transform: translateY(-2px);
+    border-color: rgba(99, 102, 241, 0.32);
+    box-shadow: 0 22px 54px rgba(32, 33, 36, 0.075);
 }
 
 .conclusion-content h3 {
-    font-size: 1.25rem;
-    font-weight: 700;
-    color: #1a1a1a;
-    margin-bottom: 12px;
-    line-height: 1.4;
+    margin-bottom: 9px;
+    color: #5f63f2;
+    font-size: clamp(1.34rem, 2vw, 1.72rem);
+    font-weight: 800;
+    line-height: 1.15;
 }
 
 .conclusion-content p {
-    font-size: 0.98rem;
-    color: #5f6368;
-    line-height: 1.6;
-    text-align: justify;
+    max-width: 900px;
+    color: #737b8c;
+    font-size: clamp(1rem, 1.5vw, 1.16rem);
+    font-weight: 500;
+    line-height: 1.55;
+}
+
+.conclusion-plus {
+    width: 38px;
+    height: 38px;
+    display: grid;
+    place-items: center;
+    color: #5f63f2;
+    background: #f7f8ff;
+    border: 1px solid #e4e7ff;
+    border-radius: 50%;
+    font-size: 1.75rem;
+    font-weight: 500;
+    line-height: 1;
 }
 
 @media (max-width: 768px) {
-    .conclusion-list {
-        grid-template-columns: 1fr; /* 手机端变为 1 列 */
-        gap: 20px;
+    .conclusion-panel {
+        padding: 24px 16px 16px;
+        border-radius: 18px;
     }
 
     .conclusion-item {
-        flex-direction: column; /* 手机端数字在内容上方 */
-        gap: 15px;
-        padding: 30px 20px;
+        min-height: auto;
+        padding: 22px 20px;
+        gap: 14px;
+    }
+}
+
+@media (max-width: 560px) {
+    .conclusion-item {
+        grid-template-columns: 1fr;
     }
 
-    .conclusion-number {
-        border-right: none;
-        border-bottom: 2px solid #eaeaea; /* 分割线由垂直变为水平 */
-        padding-right: 0;
-        padding-bottom: 8px;
-        width: 100%;
+    .conclusion-plus {
+        display: none;
     }
 }
 
@@ -701,10 +707,6 @@ img {
     }
 
     .model-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .conclusion-list {
         grid-template-columns: 1fr;
     }
 
