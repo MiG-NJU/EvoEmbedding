@@ -1,4 +1,9 @@
 import argparse
+import os
+import sys
+
+if __package__ is None or __package__ == "":
+    sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from eval import longmemeval, locomoeval, personamemeval, personamme
 
